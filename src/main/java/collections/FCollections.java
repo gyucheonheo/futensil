@@ -1,6 +1,7 @@
 package collections;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -68,5 +69,23 @@ public class FCollections {
         Function<T, T> finalFunction = Arrays.stream(fs)
                                         .reduce( Function.identity(), Function::andThen);
         return ts.stream().map(finalFunction).collect(Collectors.toUnmodifiableList());
+    }
+
+    public static <T> void forEach(Collection<T> ts, Consumer<T> e){
+        for(T t: ts) e.accept(t);
+    }
+
+    public static <T> List<T> unfold(T seed, Function<T, T> f, Function<T, Boolean> p){
+       List<T> ts = new ArrayList<>();
+       T temp = seed;
+       while(p.apply(temp)){
+           ts = append(ts, temp);
+           temp = f.apply(temp);
+       }
+       return ts;
+    }
+
+    public static List<Integer> range(int start, int end){
+        return unfold(start, x-> x+ 1, x -> x < end);
     }
 }
