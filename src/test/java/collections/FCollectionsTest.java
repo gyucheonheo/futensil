@@ -1,3 +1,5 @@
+package collections;
+
 import collections.FCollections;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
