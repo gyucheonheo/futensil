@@ -1,5 +1,6 @@
 package data;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public abstract class Option<A> {
@@ -8,6 +9,8 @@ public abstract class Option<A> {
     private static Option none = new None();
     public abstract A getOrThrow();
     public abstract A getOrElse(Supplier<A> defaultValue);
+    public abstract <B> Option<B> map(Function<A, B> f);
+    public abstract <B> Option<B> flatMap(Function<A, Option<B>> f);
 
     private static class None<A> extends Option<A> {
 
@@ -20,6 +23,18 @@ public abstract class Option<A> {
         public A getOrElse(Supplier<A> defaultValue) {
             return defaultValue.get();
         }
+
+        @Override
+        public <B> Option<B> map(Function<A, B> f) {
+            return none();
+        }
+
+        @Override
+        public <B> Option<B> flatMap(Function<A, Option<B>> f) {
+            return map(f).getOrElse(Option::none);
+        }
+
+
 
         @Override
         public String toString(){
@@ -40,6 +55,16 @@ public abstract class Option<A> {
         @Override
         public A getOrElse(Supplier<A> defaultValue) {
             return value;
+        }
+
+        @Override
+        public <B> Option<B> map(Function<A, B> f) {
+            return Option.some(f.apply(value));
+        }
+
+        @Override
+        public <B> Option<B> flatMap(Function<A, Option<B>> f) {
+            return f.apply(value);
         }
 
         @Override

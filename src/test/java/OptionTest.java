@@ -29,4 +29,9 @@ public class OptionTest {
         String defaultValue = (String) Option.none().getOrElse(() -> "Default");
         Assertions.assertEquals("Default", defaultValue);
     }
+
+    @Test
+    public void mapConvertsOptionAtoOptionB(){
+        Assertions.assertEquals(5, Option.some("Hello").map(String::length).getOrElse(() -> -1));
+    }
 }
