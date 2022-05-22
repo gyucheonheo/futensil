@@ -5,9 +5,23 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static collections.CollectionUtils.list;
-
 public class FCollections {
+    public static <T> List<T> list(){
+        return Collections.emptyList();
+    }
+
+    public static <T> List<T> list(T t){
+        return Collections.singletonList(t);
+    }
+
+    public static <T> List<T> list(List<T> ts){
+        return List.copyOf(ts);
+    }
+
+    public static <T> List<T> list(T... t){
+        return List.of(Arrays.copyOf(t, t.length));
+    }
+
     public static <T> Optional<T> head(List<T> list){
         if(list.isEmpty()) return Optional.empty();
         else return Optional.of(list.get(0));
