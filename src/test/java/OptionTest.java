@@ -23,4 +23,10 @@ public class OptionTest {
         Option<String> some = Option.some("Hello World");
         Assertions.assertEquals("Hello World", some.getOrThrow());
     }
+
+    @Test
+    public void getOrElseReturnDefaultValueIfItIsNone(){
+        String defaultValue = (String) Option.none().getOrElse(() -> "Default");
+        Assertions.assertEquals("Default", defaultValue);
+    }
 }
